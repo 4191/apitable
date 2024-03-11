@@ -1,0 +1,42 @@
+@import "~pc/styles/lib_var.less";
+@import "~pc/styles/lib_mixins.less";
+
+.paCopilot {
+  display: flex;
+  flex-direction: column;
+  background: var(--bgCommonDefault);
+  height: 100vh;
+
+  .header {
+    flex-shrink: 0;
+    border: 1px solid var(--borderCommonDefault);
+    border-top: none;
+    border-left: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 12px;
+    height: 50px;
+    .title {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--textCommonDefault);
+      display: flex;
+      flex-direction: column;
+      .viewName {
+        font-size: 12px;
+        color: var(--textCommonTertiary);
+      }
+    }
+    .closeBtn {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      svg {
+        width: 20px;
+        height: 20px;
+        fill: var(--fc3);
+      }
+    }
+  }
+}

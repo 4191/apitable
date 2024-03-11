@@ -20,6 +20,7 @@ import { useToggle } from 'ahooks';
 import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import { get } from 'lodash';
+import { ShortcutActionManager, ShortcutActionName } from 'modules/shared/shortcut_key';
 import dynamic from 'next/dynamic';
 import * as React from 'react';
 import { FC, useCallback, useContext, useEffect, useMemo } from 'react';
@@ -39,12 +40,12 @@ import {
   SystemConfig,
   t,
 } from '@apitable/core';
-import { ShortcutActionManager, ShortcutActionName } from 'modules/shared/shortcut_key';
 import { ApiPanel } from 'pc/components/api_panel';
 import { automationHistoryAtom } from 'pc/components/automation/controller';
 import AutomationHistoryPanel from 'pc/components/automation/run_history/modal/modal';
 import { Message, VikaSplitPanel } from 'pc/components/common';
 
+import { Copilot } from 'pc/components/copilot';
 import { JobTaskProvider } from 'pc/components/editors/button_editor/job_task';
 import { TimeMachine } from 'pc/components/time_machine';
 import { useMountWidgetPanelShortKeys } from 'pc/components/widget/hooks';
@@ -67,7 +68,7 @@ import { TabBar } from '../tab_bar';
 import { ViewContainer } from '../view_container';
 import { WidgetPanel } from '../widget';
 // @ts-ignore
-import { Copilot } from 'enterprise/Copilot';
+// import { Copilot } from 'enterprise/Copilot';
 // @ts-ignore
 import { createBackupSnapshot } from 'enterprise/time_machine/backup/backup';
 // @ts-ignore
