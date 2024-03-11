@@ -4,6 +4,7 @@ import {
 } from '@apitable/core';
 import { CloseOutlined } from '@apitable/icons';
 import { useAppSelector } from 'pc/store/react-redux';
+import { CopilotFooter } from './components/copilot_footer';
 import { CopilotMessageTurn } from './components/copilot_message_turn';
 import { useCopilot } from './hooks/use_copilot';
 import styles from './copilot.module.less';
@@ -36,13 +37,10 @@ export function Copilot(props: ICopilot) {
           <CloseOutlined onClick={() => props.onClose(false)}/>
         </div>
       </div>
-      <div>
+      <div className={styles.content}>
         { content }
       </div>
-      <div>
-        <input type="text" />
-        <button onClick={() => sendMessage()}>send</button>
-      </div>
+      <CopilotFooter />
     </div>
   );
 }

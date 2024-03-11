@@ -39,4 +39,40 @@
       }
     }
   }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  .footer {
+    flex-shrink: 0;
+    padding: 10px;
+    border-top: 1px solid var(--borderCommonDefault);
+    .tools {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .messageInputContainer {
+      padding: 10px;
+      background: var(--bgControlsDefault);
+      border-radius: 4px;
+      &.focused {
+        box-shadow: 0 0 0 1px var(--primaryColor);
+      }
+      .rcTextArea {
+        width: 100%;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        margin-bottom: 10px;
+      }
+      .submitContainer {
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
 }
