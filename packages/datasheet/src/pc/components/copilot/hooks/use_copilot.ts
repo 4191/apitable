@@ -1,5 +1,6 @@
 import { fetchEventSource } from '@microsoft/fetch-event-source';
-import { useState, useEffect } from 'react';
+import { cloneDeep } from 'lodash';
+import { useState, useEffect, useRef } from 'react';
 import { fetchMessages, token } from '../mock/api';
 
 export interface IMessageFinishData {
@@ -18,6 +19,7 @@ export interface IMessageFinishData {
 }
 
 export interface ICopilotMessageTurn {
+  uid: string;
   question: string;
   // type: MessageType;
   answer: {
@@ -31,19 +33,19 @@ export interface ICopilotMessageTurn {
   }
 }
 
-// export interface ICopilotMessageTurn {
-//   id: string;
-//   question: string;
-//   answer: {
-//     text: string;
-//   };
-//   isError: boolean;
-//   isLoading: boolean;
-// }
+let id = 0;
+function getUID() {
+  return `${++id}_${Date.now()}`;
+}
 
 export function useCopilot() {
+  const contentRef = useRef<HTMLDivElement>(null);
   const [messages, setMessages] = useState<ICopilotMessageTurn[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [messageString, setMessageString] = useState<string>('');
+
+  const currentMessageTurn = messages[messages.length - 1];
+  const isGenerating = currentMessageTurn?.answer.loading;
 
   useEffect(() => {
 
@@ -61,49 +63,105 @@ export function useCopilot() {
     init();
   }, []);
 
-  function sendMessage() {
+  useEffect(() => {
+    try {
+      contentRef.current?.scrollTo(0, contentRef.current.scrollHeight);
+    } catch (error) {
+      console.log('scrollToBottomByDelay error: ', error);
+    }
+  }, [currentMessageTurn]);
+
+  function updateMessageTurn(turn: ICopilotMessageTurn, cb: (turn: ICopilotMessageTurn) => ICopilotMessageTurn){
+    setMessages((messages) => {
+      return messages.map((item) => {
+        if(item.uid === turn.uid) {
+          return cb(cloneDeep(item));
+        }
+        return item;
+      });
+    });
+  }
+
+  function sendMessage({ message }: { message: string }) {
+    if(!message) return;
+
+    const question = message.trim();
+
+    if(isLoading || !question) return;
+
+    setMessageString('');
+
+    const controller = new AbortController();
+
+    const messageTurn: ICopilotMessageTurn = {
+      uid: getUID(),
+      question,
+      answer: {
+        controller,
+        text: '',
+        error: '',
+        loading: true,
+      }
+    };
+
+    setMessages((messages) => [...messages, messageTurn]);
+
     fetchEventSource('https://qa-lab-service.zhihuiya.com/lab-service/message/connection', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token.token || ''}`,
       },
-      // signal: controller.signal,
+      signal: controller.signal,
       body: JSON.stringify({
         chat_id: 'f6135271f20c40da982e8e32dc95dbbd',
         type: 'Normal',
-        question: '你好啊！',
+        question,
         app_id: 'patent_webgpt', // patent， pharm
       }),
-      async onopen(response) {
-        // if (response.status === 401) {
-        //   logoutWithAuthToast();
-        //   throw new Error('401');
-        // }
+      onopen(response) {
+        console.log('[Chat] - Connection open: ', response);
+        return Promise.resolve();
       },
       onmessage(ev) {
-        let data = null;
+        let data: any = null;
         try {
           data = JSON.parse(ev.data);
-        } catch (error) {}
+        } catch (error) {
+
+        }
+
+        if(!data) {
+          console.log('[Chat] - close with no data');
+          return;
+        }
 
         console.log('onmessage', data);
 
-        // if(data.type === 'last_answer') {
-        //   let finishData = null;
-        //   try {
-        //     finishData = JSON.parse(data.content);
-        //   } catch (error) {}
-        //   message.answer.finishData = finishData;
-        //   console.log('onmessage Finish', finishData);
-        // } else if(data.type === 'streaming') {
-        //   message.answer.text += data.content;
-        // }
+        if(data?.type === 'last_answer') {
+          let finishData = null;
+          try {
+            finishData = JSON.parse(data.content);
+          } catch (error) {}
+          updateMessageTurn(messageTurn, (turn) => {
+            turn.answer.finishData = finishData;
+            return turn;
+          });
+          console.log('onmessage Finish', finishData);
+        } else if(data.type === 'streaming') {
+          updateMessageTurn(messageTurn, (turn) => {
+            turn.answer.text += data.content;
+            return turn;
+          });
+        }
 
         // scrollToBottomByDelay();
       },
       onclose() {
-        // message.answer.loading = false;
+        updateMessageTurn(messageTurn, (turn) => {
+          turn.answer.loading = false;
+          return turn;
+        });
       },
       onerror(error) {
         // console.log('onerror: ', error);
@@ -114,9 +172,32 @@ export function useCopilot() {
     });
   }
 
+  function abort() {
+    if(!currentMessageTurn) return;
+    updateMessageTurn(currentMessageTurn, (turn) => {
+      turn.answer.controller?.abort();
+      turn.answer.loading = false;
+      turn.answer.error = 'abort';
+      return turn;
+    });
+  }
+
+  function clear() {
+    abort();
+    setMessages([]);
+  }
+
   return {
     messages,
     isLoading,
     sendMessage,
+    messageString,
+    setMessageString,
+    updateMessageTurn,
+    currentMessageTurn,
+    isGenerating,
+    abort,
+    clear,
+    contentRef,
   };
 }
