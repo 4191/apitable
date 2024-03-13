@@ -33,6 +33,7 @@ import {
   Selectors,
 } from '@apitable/core';
 import { NodeInfoBar } from 'pc/components/common/node_info_bar';
+import { ThemeSettingButton } from 'pc/components/navigation/account_center_modal/personalized_setting/theme_setting/theme_setting_button';
 import { NetworkStatus } from 'pc/components/network_status';
 import { CollaboratorStatus } from 'pc/components/tab_bar/collaboration_status';
 import { TemplateUseButton } from 'pc/components/template_centre/template_use_button';
@@ -283,6 +284,7 @@ export const Tab: FC<React.PropsWithChildren<ITabStateProps>> = memo((props) => 
       )}
       {!templateId && showCollaborator && (
         <div className={styles.status}>
+          <ThemeSettingButton />
           <CollaboratorStatus resourceId={datasheetId!} resourceType={ResourceType.Datasheet} />
           <NetworkStatus currentStatus={status} />
         </div>

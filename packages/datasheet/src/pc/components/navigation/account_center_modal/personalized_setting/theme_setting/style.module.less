@@ -8,3 +8,26 @@
     padding-bottom: 24px;
   }
 }
+
+.themeSettingBtn {
+  margin-right: 24px;
+  display: flex;
+  align-items: center;
+  .theme {
+    cursor: pointer;
+    color: var(--textCommonTertiary);
+    display: inline-flex;
+    align-items: center;
+    svg {
+      fill: currentColor;
+      margin-right: 4px;
+    }
+    &.active {
+      color: var(--textCommonDefault);
+    }
+  }
+  .flag {
+    margin: 0 4px;
+    color: var(--textCommonTertiary);
+  }
+}
