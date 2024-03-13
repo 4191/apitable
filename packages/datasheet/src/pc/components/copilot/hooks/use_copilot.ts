@@ -3,6 +3,7 @@ import { cloneDeep } from 'lodash';
 import { useState, useEffect, useRef } from 'react';
 import { fetchMessages, token } from '../mock/api';
 
+class CopilotError extends Error {}
 export interface IMessageFinishData {
   error_message?: string;
   intermediate_steps?: number;
@@ -119,8 +120,10 @@ export function useCopilot() {
         question,
         app_id: 'patent_webgpt', // patent， pharm
       }),
-      onopen() {
-        // console.log('[Chat] - Connection open: ', response);
+      onopen(response) {
+        if (response.status === 401) {
+          throw new CopilotError('401 身份认证过期!');
+        }
         return Promise.resolve();
       },
       onmessage(ev) {
@@ -128,13 +131,15 @@ export function useCopilot() {
         try {
           data = JSON.parse(ev.data);
         } catch (error) {
-
+          console.error('流数据解析失败: ', ev);
         }
 
         if(!data) {
           console.log('[Chat] - close with no data');
           return;
         }
+
+        console.log('onmessage: ', data);
 
         if(data?.type === 'last_answer') {
           let finishData = null;
@@ -145,7 +150,7 @@ export function useCopilot() {
             turn.answer.finishData = finishData;
             return turn;
           });
-          // console.log('onmessage Finish', finishData);
+          console.log('onmessage Finish: ', finishData);
         } else if(data.type === 'streaming') {
           updateMessageTurn(messageTurn, (turn) => {
             turn.answer.text += data.content;
@@ -160,15 +165,18 @@ export function useCopilot() {
         });
       },
       onerror(error) {
-        console.log('onerror: ', error);
         updateMessageTurn(messageTurn, (turn) => {
+          const errorMessage = error instanceof CopilotError ? `${error}` : 'Unknow Error';
           turn.answer.loading = false;
-          turn.answer.error = 'error';
+          turn.answer.error = errorMessage;
           return turn;
         });
         throw error;
       }
-    });
+    })
+      .catch((error) => {
+        console.log('[fetchEventSource Error]: ', error);
+      });
   }
 
   function abort() {
