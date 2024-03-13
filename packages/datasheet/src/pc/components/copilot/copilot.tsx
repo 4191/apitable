@@ -1,4 +1,7 @@
 import {
+  Loading,
+} from '@apitable/components';
+import {
   Selectors,
   IReduxState,
 } from '@apitable/core';
@@ -6,6 +9,7 @@ import { CloseOutlined } from '@apitable/icons';
 import { useAppSelector } from 'pc/store/react-redux';
 import { CopilotFooter } from './components/copilot_footer';
 import { CopilotMessageTurn } from './components/copilot_message_turn';
+import { CopilotWelcome } from './components/copilot_welcome';
 import { CopilotContext } from './context';
 import { useCopilot } from './hooks/use_copilot';
 import styles from './copilot.module.less';
@@ -24,9 +28,9 @@ export function Copilot(props: ICopilot) {
     return <CopilotMessageTurn key={turn.uid} turn={turn}/>;
   });
 
-  const loadingContent = <div>Loading...</div>;
+  const loadingContent = <Loading />;
 
-  const content = isLoading ? loadingContent : messageContent.length ? messageContent : <div>No messages</div>;
+  const content = isLoading ? loadingContent : messageContent.length ? messageContent : null;
 
   return (
     <CopilotContext.Provider value={copilot}>
@@ -41,6 +45,7 @@ export function Copilot(props: ICopilot) {
           </div>
         </div>
         <div className={styles.content} ref={contentRef}>
+          <CopilotWelcome />
           { content }
         </div>
         <CopilotFooter />

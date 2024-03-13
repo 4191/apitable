@@ -1,11 +1,21 @@
+import classNames from 'classnames';
+import {
+  Selectors,
+  IReduxState,
+} from '@apitable/core';
+import { useAppSelector } from 'pc/store/react-redux';
 import PatsnapCopilotIcon from 'static/icon/robot/patsnap_copilot.svg';
 import styles from '../copilot.module.less';
 import { type ICopilotMessageTurn } from '../hooks/use_copilot';
+
 interface ICopilotMessageTurnProps {
   turn: ICopilotMessageTurn;
 }
 
 export function CopilotMessageTurn({ turn }: ICopilotMessageTurnProps) {
+
+  const user = useAppSelector((state: IReduxState) => Selectors.getUserState(state));
+  const userNamePrefix = user?.info?.email?.[0] || 'P';
 
   let answer= <p>{turn.answer.loading ? '思考中...' : ''}</p>;
   if(turn.answer.error) {
@@ -23,7 +33,7 @@ export function CopilotMessageTurn({ turn }: ICopilotMessageTurnProps) {
           <div className={styles.message}>{ turn.question }</div>
         </div>
         <div className={styles.right}>
-          <div className={styles.avatar}>J</div>
+          <div className={styles.avatar}>{userNamePrefix}</div>
         </div>
       </div>
       <div className={styles.answer}>
@@ -33,7 +43,10 @@ export function CopilotMessageTurn({ turn }: ICopilotMessageTurnProps) {
           </div>
         </div>
         <div className={styles.right}>
-          <div className={styles.message}>
+          <div className={classNames({
+            [styles.message]: true,
+            [styles.error]: !!turn.answer.error,
+          })}>
             { answer }
           </div>
         </div>

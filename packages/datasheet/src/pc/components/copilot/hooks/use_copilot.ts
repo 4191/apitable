@@ -119,8 +119,8 @@ export function useCopilot() {
         question,
         app_id: 'patent_webgpt', // patent， pharm
       }),
-      onopen(response) {
-        console.log('[Chat] - Connection open: ', response);
+      onopen() {
+        // console.log('[Chat] - Connection open: ', response);
         return Promise.resolve();
       },
       onmessage(ev) {
@@ -136,8 +136,6 @@ export function useCopilot() {
           return;
         }
 
-        console.log('onmessage', data);
-
         if(data?.type === 'last_answer') {
           let finishData = null;
           try {
@@ -147,15 +145,13 @@ export function useCopilot() {
             turn.answer.finishData = finishData;
             return turn;
           });
-          console.log('onmessage Finish', finishData);
+          // console.log('onmessage Finish', finishData);
         } else if(data.type === 'streaming') {
           updateMessageTurn(messageTurn, (turn) => {
             turn.answer.text += data.content;
             return turn;
           });
         }
-
-        // scrollToBottomByDelay();
       },
       onclose() {
         updateMessageTurn(messageTurn, (turn) => {
@@ -164,9 +160,12 @@ export function useCopilot() {
         });
       },
       onerror(error) {
-        // console.log('onerror: ', error);
-        // message.answer.error = 'error';
-        // message.answer.loading = false;
+        console.log('onerror: ', error);
+        updateMessageTurn(messageTurn, (turn) => {
+          turn.answer.loading = false;
+          turn.answer.error = 'error';
+          return turn;
+        });
         throw error;
       }
     });
