@@ -75,6 +75,7 @@ const WorkspaceRoute: FC<React.PropsWithChildren<unknown>> = () => {
       return <MirrorRoute />;
     }
     if (datasheetId) {
+      // 默认走了这里
       return <DataSheetPane />;
     }
     if (folderId) {

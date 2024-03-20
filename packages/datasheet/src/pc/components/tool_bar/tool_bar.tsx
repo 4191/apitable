@@ -19,6 +19,7 @@
 import { useMount, useSize, useThrottleFn } from 'ahooks';
 import classNames from 'classnames';
 import { get } from 'lodash';
+import { ShortcutActionManager, ShortcutActionName } from 'modules/shared/shortcut_key';
 import * as React from 'react';
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { isMobile } from 'react-device-detect';
@@ -65,8 +66,8 @@ import {
   StyleOutlined,
   WidgetOutlined,
 } from '@apitable/icons';
-import { ShortcutActionManager, ShortcutActionName } from 'modules/shared/shortcut_key';
 import { ArchivedRecords } from 'pc/components/archive_record';
+import { Modal } from 'pc/components/common/modal/modal/modal';
 import { MirrorList } from 'pc/components/mirror/mirror_list';
 import { getFieldTypeIcon } from 'pc/components/multi_grid/field_setting';
 import { SideBarClickType, SideBarType, useSideBar } from 'pc/context';
@@ -82,6 +83,8 @@ import { Collapse, ICollapseFunc } from '../common/collapse';
 import { ScreenSize } from '../common/component_display';
 import { expandRecordIdNavigate } from '../expand_record';
 import { showKanbanSetting } from '../kanban_view';
+import { AiIndex } from './ai_index.tsx';
+// import { AiIndexDemo } from './ai_index_demo.tsx';
 import { getRowHeightIcon } from './change_row_height';
 import { Display } from './display/display';
 import { Find } from './find';
@@ -125,6 +128,7 @@ const ToolbarBase = () => {
   const [isFindOpen, setIsFindOpen] = useState(false);
   const [iconRotation, setIconRotation] = useState(false);
   const [winWidth, setWinWidth] = useState(0);
+  const [aiVisible, setAiVisible] = useState(false);
   const { shareId, templateId, datasheetId, viewId, mirrorId, embedId } = useAppSelector((state) => {
     const { shareId, templateId, datasheetId, viewId, mirrorId, embedId } = state.pageParams;
     return {
@@ -455,7 +459,7 @@ const ToolbarBase = () => {
       ),
       label: 'Copilot',
       key: 'copilot',
-      show:  getEnvVariables().AI_ENTRANCE_VISIBLE && getEnvVariables().IS_APITABLE && !shareId
+      show: getEnvVariables().AI_ENTRANCE_VISIBLE && getEnvVariables().IS_APITABLE && !shareId,
     },
     {
       component: <ForeignForm key="foreignForm" className={styles.toolbarItem} showLabel={showIconBarLabel} />,
@@ -533,11 +537,7 @@ const ToolbarBase = () => {
       show: !mirrorId && !shareId && !templateId && embedSetting.historyBtn && getEnvVariables().TIME_MACHINE_VISIBLE,
     },
     {
-      component: <ArchivedRecords
-        key="archived-records"
-        className={styles.toolbarItem}
-        showLabel={showIconBarLabel}
-      />,
+      component: <ArchivedRecords key="archived-records" className={styles.toolbarItem} showLabel={showIconBarLabel} />,
       key: 'archivedRecords',
       show: !shareId && !mirrorId && !shareId && !templateId && permissions.manageable,
     },
@@ -725,6 +725,7 @@ const ToolbarBase = () => {
             />
           </Display>
         )}
+
         {!shareId && !templateId && Boolean(activeNode) && !embedId && !isIframe() && (
           <Display type={ToolHandleType.Share}>
             <ToolItem
@@ -738,6 +739,10 @@ const ToolbarBase = () => {
           </Display>
         )}
       </div>
+
+      <AiIndex />
+      {/* <AiIndexDemo /> */}
+
       <Share nodeId={shareNodeId} onClose={() => setShareNodeId('')} />
       {!isMobile && (
         <div
