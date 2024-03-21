@@ -1,6 +1,6 @@
-@import "~pc/styles/lib_mixins.less";
-@import "~pc/styles/lib_var.less";
-@import "~pc/styles/lib_screen.less";
+@import '~pc/styles/lib_mixins.less';
+@import '~pc/styles/lib_var.less';
+@import '~pc/styles/lib_screen.less';
 
 .toolbar {
   position: relative;
@@ -42,7 +42,7 @@
     &:after {
       position: absolute;
       right: 0;
-      content: " ";
+      content: ' ';
       display: block;
       height: 20px;
       width: 1px;
@@ -56,7 +56,7 @@
     width: 0;
     overflow: hidden;
     padding: 0 8px;
-    input[type="text"] {
+    input[type='text'] {
       width: 100%;
     }
   }
@@ -245,6 +245,310 @@
           fill: currentColor;
         }
       }
+    }
+  }
+}
+
+.step {
+  border-top: 2px solid gray;
+  padding: 0 20px 20px 20px;
+}
+
+.minHeight {
+  min-height: 400px;
+}
+
+.step1 {
+}
+
+.subTitle {
+  font-size: 16px;
+  color: black;
+  padding: 12px 0;
+}
+
+.activeSelect {
+  border: 1px solid #5f9ea0;
+  background-color: #edf4fc;
+}
+
+.selectItem {
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn {
+  color: white;
+  background-color: #1d8820;
+  width: 100%;
+  border: #1d8820;
+  border-radius: 8px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.backBtn {
+  color: white;
+  background-color: #aaa;
+  border: #aaa;
+  width: 100%;
+  border-radius: 8px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 14px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+.step2 {
+  hr {
+    margin-top: 100px;
+    color: gray;
+  }
+
+  footer {
+    span {
+      font-size: 12px;
+      color: gray;
+      padding: 2px 0 4px;
+    }
+  }
+}
+
+.statistics {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+  padding: 14px 10px;
+  background-color: #edf4fc;
+
+  > div {
+    color: gray;
+  }
+}
+.blueNumber {
+  color: #1667b8;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.blueNumber2 {
+  color: #1667b8;
+  font-size: 24px;
+  font-weight: bold;
+  padding-left: 20px;
+}
+
+.blueNumberRight {
+  color: #1667b8;
+  font-size: 24px;
+  font-weight: bold;
+  float: right;
+}
+
+.radio,
+.radio3 {
+  display: flex;
+  background-color: #ddd;
+  border-radius: 4px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+  padding: 1px;
+
+  > div {
+    border-radius: 4px;
+    text-align: center;
+    cursor: pointer;
+    width: 50%;
+  }
+
+  > div.activeItem {
+    background-color: white;
+    color: #1667b8;
+    font-weight: bold;
+  }
+}
+
+.radio3 {
+  > div {
+    width: calc(33.333% - 0px);
+  }
+}
+
+.step3 {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .loadingImg {
+    margin: 100px 0 60px;
+    width: 100px;
+    height: 100px;
+    background-image: url(./img/LOADING.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  .loadingPercent {
+    display: flex;
+    align-items: center;
+    .loadingBar {
+      background-color: #ddd;
+      width: 160px;
+      height: 6px;
+      border-radius: 5px;
+      margin-right: 10px;
+
+      > div {
+        width: 0%;
+        border-radius: 5px;
+        height: 6px;
+        background-color: #45a321;
+      }
+    }
+
+    > span {
+      color: #45a321;
+      font-size: 16px;
+    }
+  }
+
+  .loadingText {
+    height: 100px;
+    padding: 40px 0;
+  }
+}
+
+.step4 {
+  .step4Wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .successImg {
+    margin: 40px 0 0px;
+    width: 100px;
+    height: 100px;
+    background-image: url(./img/AI_FINISH.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+  .successTitle {
+    font-size: 22px;
+    padding-bottom: 6px;
+    > span {
+      color: #1d8820;
+      font-weight: bold;
+    }
+  }
+
+  .analyticTable {
+    ul {
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      background-color: #eee;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    li {
+      padding: 0;
+      margin: 0;
+      list-style-type: none;
+      display: flex;
+      height: 28px;
+      line-height: 28px;
+
+      .key {
+      }
+      > div {
+        width: 50%;
+      }
+    }
+  }
+}
+
+.radio4 {
+  margin-right: 100px;
+  > div {
+    width: calc(33.333% - 0px);
+  }
+}
+
+.aiIndex {
+  padding: 0 10px 10px;
+  border-bottom: 1px solid gray;
+
+  .toolIcon {
+    cursor: pointer;
+  }
+
+  .header {
+    padding: 20px 0 0 0;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid gray;
+  }
+
+  .input {
+    color: gray;
+    cursor: pointer;
+  }
+
+  .list {
+    max-height: 85vh;
+    overflow: auto;
+    .pBar {
+      background-color: #ddd;
+      border-bottom: 1px solid #666;
+      padding: 0 80px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      > span {
+        display: block;
+        width: 300px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      .select {
+        flex-shrink: 0;
+        width: 300px;
+      }
+    }
+
+    .pWrap {
+      padding: 8px 10px;
+    }
+    .pHeader {
+      display: flex;
+      align-items: flex-end;
+
+      .pNumber {
+        color: #45a321;
+        font-size: 18px;
+      }
+      .pTitle {
+        margin-left: 16px;
+        color: #1667b8;
+        font-size: 16px;
+
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+
+    .pContent {
+      padding: 8px 10px;
     }
   }
 }

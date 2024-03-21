@@ -82,6 +82,7 @@ import { Collapse, ICollapseFunc } from '../common/collapse';
 import { ScreenSize } from '../common/component_display';
 import { expandRecordIdNavigate } from '../expand_record';
 import { showKanbanSetting } from '../kanban_view';
+import { AiIndex } from './ai_index.tsx';
 import { getRowHeightIcon } from './change_row_height';
 import { Display } from './display/display';
 import { Find } from './find';
@@ -455,8 +456,7 @@ const ToolbarBase = () => {
       ),
       label: 'Copilot',
       key: 'copilot',
-      // show:  getEnvVariables().AI_ENTRANCE_VISIBLE && getEnvVariables().IS_APITABLE && !shareId
-      show: getEnvVariables().IS_APITABLE && !shareId
+      show: getEnvVariables().AI_ENTRANCE_VISIBLE && getEnvVariables().IS_APITABLE && !shareId,
     },
     {
       component: <ForeignForm key="foreignForm" className={styles.toolbarItem} showLabel={showIconBarLabel} />,
@@ -534,11 +534,7 @@ const ToolbarBase = () => {
       show: !mirrorId && !shareId && !templateId && embedSetting.historyBtn && getEnvVariables().TIME_MACHINE_VISIBLE,
     },
     {
-      component: <ArchivedRecords
-        key="archived-records"
-        className={styles.toolbarItem}
-        showLabel={showIconBarLabel}
-      />,
+      component: <ArchivedRecords key="archived-records" className={styles.toolbarItem} showLabel={showIconBarLabel} />,
       key: 'archivedRecords',
       show: !shareId && !mirrorId && !shareId && !templateId && permissions.manageable,
     },
@@ -739,6 +735,9 @@ const ToolbarBase = () => {
           </Display>
         )}
       </div>
+
+      <AiIndex />
+
       <Share nodeId={shareNodeId} onClose={() => setShareNodeId('')} />
       {!isMobile && (
         <div
