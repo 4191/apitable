@@ -8585,6 +8585,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     optional: true
 
@@ -8593,6 +8594,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     optional: true
 
@@ -8601,6 +8603,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     optional: true
 
@@ -8609,6 +8612,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     optional: true
 
@@ -8745,6 +8749,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -8754,6 +8759,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -8763,6 +8769,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -8772,6 +8779,7 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -9892,6 +9900,7 @@ packages:
     resolution: {integrity: sha512-TzJ+N2EoTLWkaClV2CUhBlj6ljXofaYzF/R9HXqQ3JCMnCHQZmQnbnZllw7yTDp0OG5whP4gIPozR4QiX+00MQ==}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -9900,6 +9909,7 @@ packages:
     resolution: {integrity: sha512-aVPmNMdp6Dlo2tWkAduAD/5TL/NT5uor290YvjvFvCv0Q3L7tVdlD8MOGDL+oRSw5XKXKAsDzHhUOPUNPRHVTQ==}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -9908,6 +9918,7 @@ packages:
     resolution: {integrity: sha512-77Fb79ayiDad0grvVsz4/OB55wJRyw9Ao+GdOBA9XywtHpuq5iRbVyHToGxWquYWlEf6WHFQQnFEttsAzboyKg==}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     dev: true
     optional: true
@@ -9916,6 +9927,7 @@ packages:
     resolution: {integrity: sha512-/t6C6niEQTqmQTVTD9TDwUzxG91Mlk69/v0qodIPUnjjB3wR4UA3klg+orR2SU3Ux2Cgf2pWPL9utK80/1ek8g==}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     dev: true
     optional: true
@@ -12123,6 +12135,7 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     optional: true
 
@@ -12131,6 +12144,7 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     optional: true
 
@@ -12139,6 +12153,7 @@ packages:
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     optional: true
 
@@ -12147,6 +12162,7 @@ packages:
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     optional: true
 
@@ -20156,7 +20172,7 @@ packages:
       eslint: 8.49.0
       eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 2.7.1(eslint-plugin-import@2.28.1)(eslint@8.49.0)
-      eslint-plugin-import: 2.28.1(@typescript-eslint/parser@6.7.2)(eslint@8.49.0)
+      eslint-plugin-import: 2.28.1(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@2.7.1)(eslint@8.49.0)
       eslint-plugin-jsx-a11y: 6.7.1(eslint@8.49.0)
       eslint-plugin-react: 7.33.2(eslint@8.49.0)
       eslint-plugin-react-hooks: 4.6.0(eslint@8.49.0)
@@ -20194,7 +20210,7 @@ packages:
       confusing-browser-globals: 1.0.11
       eslint: 8.49.0
       eslint-plugin-flowtype: 8.0.3(@babel/plugin-syntax-flow@7.22.5)(@babel/plugin-transform-react-jsx@7.22.15)(eslint@8.49.0)
-      eslint-plugin-import: 2.28.1(@typescript-eslint/parser@5.62.0)(eslint@8.49.0)
+      eslint-plugin-import: 2.28.1(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@2.7.1)(eslint@8.49.0)
       eslint-plugin-jest: 25.7.0(@typescript-eslint/eslint-plugin@5.62.0)(eslint@8.49.0)(typescript@4.8.2)
       eslint-plugin-jsx-a11y: 6.7.1(eslint@8.49.0)
       eslint-plugin-react: 7.33.2(eslint@8.49.0)
@@ -20229,7 +20245,7 @@ packages:
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
       eslint: 8.49.0
-      eslint-plugin-import: 2.28.1(@typescript-eslint/parser@6.7.2)(eslint@8.49.0)
+      eslint-plugin-import: 2.28.1(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@2.7.1)(eslint@8.49.0)
       glob: 7.2.3
       is-glob: 4.0.3
       resolve: 1.22.4
@@ -20312,7 +20328,7 @@ packages:
       string-natural-compare: 3.0.1
     dev: true
 
-  /eslint-plugin-import@2.28.1(@typescript-eslint/parser@5.62.0)(eslint@8.49.0):
+  /eslint-plugin-import@2.28.1(@typescript-eslint/parser@5.62.0)(eslint-import-resolver-typescript@2.7.1)(eslint@8.49.0):
     resolution: {integrity: sha512-9I9hFlITvOV55alzoKBI+K9q74kv0iKMeY6av5+umsNwayt59fz692daGyjR+oStBQgx6nwR9rXldDev3Clw+A==}
     engines: {node: '>=4'}
     peerDependencies:
